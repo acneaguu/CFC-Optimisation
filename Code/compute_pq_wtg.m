@@ -1,4 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Original authors: Farley Rimon & Marouane Mastouri
+%%This is a modified version.
+
 %%README:
 %%This function is used to compute the active and reactive power outputs of
 %%the different strings as function of the wind speed. The output are
