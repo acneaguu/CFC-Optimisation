@@ -37,15 +37,15 @@ initialise_systemdata(system_13_350MVA);    %Initialise the topology
 %%Optimisation run settings
 initialise_optimisation_weights();  %Sets the weights of the different 
                                     %constraints and objectives
-Optimisation.Ncases = 1;            %Number of evaluated time instances
-Optimisation.Nruns = 1;             %Number of runs per case
+Optimisation.Ncases = 25;            %Number of evaluated time instances
+Optimisation.Nruns = 5;             %Number of runs per case
 Optimisation.Neval = 500*35;        %Max allowed function evaluations
 Optimisation.Populationsize = 35;   %Size of the population
 Optimisation.algorithm = 4;         %1 for ga, 2 for pso, 3 for cdeepso 
                                     %4 for MVMO_SHM
 Optimisation.print_progress = 1;    %Plots runs in command window
 Optimisation.print_interval = 2000; %Interval of printed steps
-Optimisation.print_pfresults = 0;   %Plots powerflow results of optimal solution
+Optimisation.print_pfresults = 1;   %Plots powerflow results of optimal solution
 
 %%-------------------------------------------------------------------------
 %%Settings to plot the power flow and store the results of the optimisation
@@ -99,7 +99,7 @@ Qref.tolerance = 0.0339/2; %tolerance at Q = 0 MVar
 
 %%-------------------------------------------------------------------------
 %%Define the testcase
- v = [7 4.5 4.5 4.5 4.5 4.5 5 5 5 5 5 7 7 7 7 12 12 12 12 12 15 15 15 15 15]';
+ v = [4.5 4.5 4.5 4.5 4.5 5 5 5 5 5 7 7 7 7 7 12 12 12 12 12 15 15 15 15 15]';
 
 cases(:,1) = v;
 cases(:,2) =repmat(Qref.setpoint,5,1);
