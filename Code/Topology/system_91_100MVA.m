@@ -8,7 +8,7 @@
 %
 % See Matpower user's manual for details on the case file format.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function mpc = system_13
+function mpc = system_91_100MVA
 %% MATPOWER Case Format : Version 2
 mpc.version = '2';
 
