@@ -21,18 +21,25 @@ rng default
 %%Optimisation containts the optimisation problem parameters
 global Optimisation ff_par Systemdata;
 %%Description of variables to optimise
-Optimisation.Nturbines = 13;                %Number of turbine strings
-Optimisation.Npv = 4;                       %Number of pv generator strings
-Optimisation.Ntr = 2;                       %Number of transformers with discrete tap positions
-Optimisation.Ntaps = [17;17];               %Number of tap positions per transformer                                             %(must have dimension of Ntr and separate by ;)
-Optimisation.Nr = 1;                        %Number of discrete reactors
+Optimisation.Nturbines = 13;                    %Number of turbines:
+                                                %-13 for stringlevel, 
+                                                %-91 for turbinelevel
+Optimisation.Npv = 4;                           %Number of pv generator strings
+Optimisation.Ntr = 2;                           %Number of transformers with discrete tap positions
+Optimisation.Ntaps = [17;17];                   %Number of tap positions per transformer                                             
+                                                %(must have dimension of Ntr and separate by ;)
+Optimisation.Nr = 1;                            %Number of discrete reactors
 
 Optimisation.Nvars = Optimisation.Nturbines + Optimisation.Npv + ...
-    Optimisation.Ntr + Optimisation.Nr;     %Number of optimisation variables
-Optimisation.which_discrete = [18:20];      %Indeces of the discrete variables
-% Optimisation.steps =[0.0168235 0.0168235 1];%steps of the discrete variables
-logic_optvars();                            %Logic vectors for optimisation vector
-initialise_systemdata(system_13_350MVA);    %Initialise the topology
+    Optimisation.Ntr + Optimisation.Nr;         %Number of optimisation variables
+Optimisation.which_discrete = [18:20];          %Indeces of the discrete variables
+% Optimisation.steps =[0.0168235 0.0168235 1];  %Steps of the discrete variables
+logic_optvars();                                %Logic vectors for optimisation vector
+if Optimisation.Nturbines == 13
+    initialise_systemdata(system_13_350MVA);    %Initialise strinlevel topology
+elseif Optimisation.Nturbines == 91
+    initialise_systemdata(system_91_100MVA);    %Initialise turbinelevel topology
+end
 
 %%Optimisation run settings
 initialise_optimisation_weights();  %Sets the weights of the different 
@@ -95,7 +102,7 @@ global Keeptrack FCount;    %Some global vars to keep track of the calls of
 %%Setpoint at PCC given by TSO
 global Qref;    
 Qref.setpoint =  [-0.286; -0.143; 0; 0.143; 0.286]; %in p.u. of baseMVA
-Qref.tolerance = 0.0339/2; %tolerance at Q = 0 MVar
+Qref.tolerance = 6.25/Systemdata.mpc.baseMVA;
 
 %%-------------------------------------------------------------------------
 %%Define the testcase

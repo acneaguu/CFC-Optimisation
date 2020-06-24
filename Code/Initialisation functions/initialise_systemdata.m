@@ -28,7 +28,13 @@ Systemdata.Nstring = size(Systemdata.mpc.gen,1);
 %%Logic vector with 1 on wtg positions in gen matrix
 Systemdata.wtg_pos = logical([0; ones(Optimisation.Nturbines,1); ...
     zeros(Optimisation.Npv,1)]); 
-                                           
+
+%%If Nturbines = 91, the string model is used. Then, the turbine types are
+%%extracted from the excel file
+if Optimisation.Nturbines == 91
+    [~, types] = xlsread('Branch_calculations_turbinelevel.xlsx','Sheet1', 'O146:O251');
+    Systemdata.wtg_type = types(not(strcmp('',types)));
+end                                          
 %%logic vector with 1 on pvg positions in gen matrix
 Systemdata.pvg_pos = logical([zeros(Optimisation.Nturbines+1,1); ...
     ones(Optimisation.Npv,1)]);
@@ -64,8 +70,8 @@ if Optimisation.Nr ~=0
     
     %%Find the branches to which the reactors belong
     Systemdata.shuntbranch = (Systemdata.mpc.branch(:,CONSTANTS.T_BUS)...
-    == find(Systemdata.shunts)|Systemdata.mpc.branch(:,CONSTANTS.F_BUS)...
-    == find(Systemdata.shunts))~=0;
+    == Systemdata.mpc.bus(Systemdata.shunts,CONSTANTS.BUS_I)|Systemdata.mpc.branch(:,CONSTANTS.F_BUS)...
+    == Systemdata.mpc.bus(Systemdata.shunts,CONSTANTS.BUS_I))~=0;
 else
     Systemdata.shunts = [];
     Systemdata.shuntbranch=[];
